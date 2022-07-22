@@ -5,25 +5,27 @@ import "@openzeppelin/contracts/proxy/Clones.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
 contract CommunityProxyFactory is Ownable {
-    address public implementationContract;
+    address public implementationCommunity;
+    address public implementationCollection;
 
     address[] public allClones;
 
     event NewClone(address _clone);
 
-    constructor(address _implementation) {
-        implementationContract = _implementation;
+    constructor(
+        address _implementationCommunity,
+        address _implementationCollection
+    ) {
+        implementationCommunity = _implementationCommunity;
+        implementationCollection = _implementationCollection;
     }
 
-    function createNewCommunity(address _implementationCollection)
-        external
-        returns (address instance)
-    {
-        instance = Clones.clone(implementationContract);
+    function createNewCommunity() external returns (address instance) {
+        instance = Clones.clone(implementationCommunity);
         (bool success, ) = instance.call(
             abi.encodeWithSignature(
                 "initialize(address)",
-                _implementationCollection
+                implementationCollection
             )
         );
         require(

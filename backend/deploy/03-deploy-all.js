@@ -11,7 +11,7 @@ async function main() {
     await community.deployed();
 
     const CommunityProxyFactory = await ethers.getContractFactory("CommunityProxyFactory");
-    const cpf = await CommunityProxyFactory.deploy(community.address);
+    const cpf = await CommunityProxyFactory.deploy(community.address, collection.address);
     await cpf.deployed();
 
     console.log(collection.address, "Collection base contract address");

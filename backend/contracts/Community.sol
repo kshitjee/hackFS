@@ -46,9 +46,10 @@ contract Community is Ownable, Initializable {
         uint256 amount
     );
 
-    /* CONSTRUCTOR */
+    /* CONSTRUCTOR (init for clone) */
     function initialize(address _collectionImplemenation) external initializer {
         collectionImplemenation = _collectionImplemenation;
+        _transferOwnership(tx.origin);
     }
 
     /* EXTERNAL FUNCTIONS */
