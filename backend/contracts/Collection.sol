@@ -43,4 +43,8 @@ contract Collection is ERC1155Upgradeable {
         }
         _mint(_to, _id, _amount, "");
     }
+
+    function getURI() public view returns(string memory) {
+        return baseMetadataURI;
+    }
 }

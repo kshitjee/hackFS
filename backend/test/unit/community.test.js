@@ -28,11 +28,15 @@ const { developmentChains } = require("../../helper-hardhat-config");
             [100, 200, 300]
           );
           const txReceipt = await txRequest.wait(1);
-          const cloneAddress = txReceipt.events[1].args[0];
+          const cloneAddress = txReceipt.events[0].args[0];
           const cloneContract = await ethers.getContractAt(
             "Collection",
             cloneAddress
           );
+          console.log(cloneContract);
+          // console.log(cloneContract.baseMetadataURI());
+          const uri = await cloneContract.getURI();
+          console.log(uri);
           assert.equal(
             (await cloneContract.baseMetadataURI()).toString(),
             "URI"
@@ -45,7 +49,7 @@ const { developmentChains } = require("../../helper-hardhat-config");
             [100, 200, 300]
           );
           const txReceipt = await txRequest.wait(1);
-          const cloneAddress = txReceipt.events[1].args[0];
+          const cloneAddress = txReceipt.events[0].args[0];
           const CollectionStruct = await community.getCollection(cloneAddress);
           assert.equal(CollectionStruct.baseMetadataURI, "URI");
         });
