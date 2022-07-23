@@ -26,8 +26,8 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
     !developmentChains.includes(network.name) &&
     process.env.ETHERSCAN_API_KEY
   ) {
-    await verify(communityDeployment.address, args1);
+    await verify(communityDeployment.address, args);
   }
   log("deployed & verfied (if needed)");
 };
-module.exports.tags = ["all", "community"];
+module.exports.tags = ["all", "communityFactory"];

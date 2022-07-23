@@ -31,7 +31,7 @@ contract Community is Ownable, Initializable {
     event CollectionCreated(
         address indexed collectionAddress,
         address indexed communityAddress,
-        string indexed baseMetaDataURI,
+        string baseMetaDataURI,
         Collection collection
     );
     event NewTokenAirdropped(
