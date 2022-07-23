@@ -45,8 +45,6 @@ const { developmentChains } = require("../../helper-hardhat-config");
             "Collection",
             cloneAddress
           );
-
-          // console.log(cloneContract);
           assert.equal(
             (await cloneContract.baseMetadataURI()).toString(),
             "URI"
