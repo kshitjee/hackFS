@@ -8,8 +8,8 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
   const { deploy, log } = deployments;
   const { owner } = await getNamedAccounts();
   const args = [
-    "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
-    "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+    "0xc72DF9762e0e71015bC81f6864F3cd50C2e6C33c",
+    "0xa2af19E78dA3E5910Ed6253344F022a02544544f",
   ];
 
   /* deployment */
@@ -26,6 +26,7 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
     !developmentChains.includes(network.name) &&
     process.env.ETHERSCAN_API_KEY
   ) {
+    console.log(args);
     await verify(communityDeployment.address, args);
   }
   log("deployed & verfied (if needed)");
