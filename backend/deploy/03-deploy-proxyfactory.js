@@ -7,25 +7,28 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
   /* important variables for deployment */
   const { deploy, log } = deployments;
   const { owner } = await getNamedAccounts();
-  const args = [];
+  const args = [
+    "0xc72DF9762e0e71015bC81f6864F3cd50C2e6C33c",
+    "0xa2af19E78dA3E5910Ed6253344F022a02544544f",
+  ];
 
   /* deployment */
-  log("deploying collection implementation contract");
-  const collectionDeployment = await deploy("Collection", {
+  log("deploying community proxy factory contract");
+  const communityDeployment = await deploy("CommunityProxyFactory", {
     from: owner,
+    args: args,
     log: true,
     waitConfirmations: network.config.blockConfirmations || 1,
   });
-  console.log("collection address: ", collectionDeployment.address);
 
   /* verification */
   if (
     !developmentChains.includes(network.name) &&
     process.env.ETHERSCAN_API_KEY
   ) {
-    await verify(collectionDeployment.address, args);
+    console.log(args);
+    await verify(communityDeployment.address, args);
   }
   log("deployed & verfied (if needed)");
 };
-
-module.exports.tags = ["all", "collection"];
+module.exports.tags = ["all", "communityFactory"];

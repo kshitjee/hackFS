@@ -9,6 +9,10 @@ const { developmentChains } = require("../../helper-hardhat-config");
       beforeEach(async function () {
         owner = (await getNamedAccounts()).owner;
         await deployments.fixture(["all"]);
+        communityfactory = await ethers.getContract(
+          "CommunityProxyFactory",
+          owner
+        );
         collection = await ethers.getContract("Collection", owner);
         community = await ethers.getContract("Community", owner);
       });
@@ -22,7 +26,15 @@ const { developmentChains } = require("../../helper-hardhat-config");
           );
         });
         it("successfully creates a clone and initializes it", async function () {
-          const txRequest = await community.createCollection(
+          const txRequest0 = await communityfactory.createNewCommunity();
+          const txReceipt0 = await txRequest0.wait(1);
+          const communityCloneAddress = txReceipt0.events[2].args[0];
+
+          const communityCloneContract = await ethers.getContractAt(
+            "Community",
+            communityCloneAddress
+          );
+          const txRequest = await communityCloneContract.createCollection(
             "URI",
             [1, 2, 3],
             [100, 200, 300]
@@ -45,7 +57,7 @@ const { developmentChains } = require("../../helper-hardhat-config");
             [100, 200, 300]
           );
           const txReceipt = await txRequest.wait(1);
-          const cloneAddress = txReceipt.events[1].args[0];
+          const cloneAddress = txReceipt.events[0].args[0];
           const CollectionStruct = await community.getCollection(cloneAddress);
           assert.equal(CollectionStruct.baseMetadataURI, "URI");
         });
